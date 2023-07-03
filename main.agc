@@ -442,13 +442,13 @@ SetSpriteVisible(700,0)
 global creditos = 0
 
 do
+
 	if fase = 8
-		SetSpriteFrame(69,3)
 		tela_fim()
 		reinicio_ou_fim()
+		SetSpriteFrame(69,3)
 	endif
-
-
+	
 	if vidas = 0
 		sleep(250)
 		pos(meninas)
@@ -459,13 +459,18 @@ do
 	
 	if pontos = 0
 		sleep(250)
-		SetSpriteFrame(69,1)
+		pos(meninas)
 		tela_fim()
 		reinicio_ou_fim ()
+		SetSpriteFrame(69,1)
 		
 	endif
 	
 	if creditos = 1 and GetPointerPressed()=1
+		fase = 1
+		SetTextVisible(100,0)
+		SetTextVisible(101,0)
+		SetTextVisible(102,0)
 		if GetTextHitTest(103,GetPointerX(),GetPointerY())
 			end
 		endif
@@ -549,7 +554,6 @@ function tela_fim()
 endfunction
 
 function reinicio_ou_fim ()
-		
 
 if GetPointerPressed()=1
 			
@@ -593,9 +597,8 @@ if GetPointerPressed()=1
 		creditos = 1
 		vidas = 3
 		morte = 0
-		SetTextVisible(100,0)
-		SetTextVisible(101,0)
-		SetTextVisible(102,0)
+		fase = 1
+		pontos = 55
 		SetTextVisible(103,1)
 		SetSpriteVisible(700,1)
 		endif
@@ -744,7 +747,6 @@ function atualizar_carros_vindo ()
 			o = random (341, 347)
 		endif
 	endif
-	
 	
 	if (getspritex(p)<-630)
 		setspritex(p,1400)
