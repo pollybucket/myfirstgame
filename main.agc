@@ -32,8 +32,10 @@ endwhile
 DeleteSprite(splash_spr)
 DeleteImage(splash_img)
 
-
+//carregamento fonte do jogo//
 LoadFont(1, "Minecraft.ttf")
+
+//textos do cabeçalho//
 global texto_pontuacao = 1
 global texto_vidas = 2
 global texto_fases = 3
@@ -227,7 +229,7 @@ global carro50s = 464
 global carro51s = 465
 global carro52s = 466
 
-//faixa 2//
+//faixa 2// - da esquerda para direita
 CreateSprite(carro14s,carro213i)
 CreateSprite(carro15s,carro24i)
 CreateSprite(carro16s,carro23i)
@@ -242,7 +244,7 @@ CreateSprite(carro24s,carro210i)
 CreateSprite(carro25s,carro212i)
 CreateSprite(carro26s,carro21i)
 
-//faixa 1//
+//faixa 1// - da direita para esquerda
 CreateSprite(carro1s,carro3i)
 CreateSprite(carro2s,carro9i)
 CreateSprite(carro3s,carro1i)
@@ -257,7 +259,7 @@ CreateSprite(carro11s,carro12i)
 CreateSprite(carro12s,carro13i)
 CreateSprite(carro13s,carro12i)
 
-//faixa 3//
+//faixa 3// - da direita para esquerda
 CreateSprite(carro27s,carro13i)
 CreateSprite(carro28s,carro2i)
 CreateSprite(carro29s,carro5i)
@@ -272,7 +274,7 @@ CreateSprite(carro37s,carro2i)
 CreateSprite(carro38s,carro12i)
 CreateSprite(carro39s,carro7i)
 
-//faixa 4// 
+//faixa 4// - da esquerda para direita
 CreateSprite(carro40s,carro24i)
 CreateSprite(carro41s,carro23i)
 CreateSprite(carro42s,carro21i)
@@ -404,13 +406,6 @@ CreateSprite(69,fimdejogoi)
 SetSpriteAnimation(69,1020,900,3)
 SetSpriteVisible(69,0)
 
-
-global pontos = 55
-global vidas = 3
-global fase = 1
-global velocidade_carro = 12
-global morte = 0
-
 CreateText(100,"> JOGAR NOVAMENTE")
 	SetTextFont(100,1)
 	SetTextPosition(100,500,600)
@@ -430,19 +425,26 @@ CreateText(102,"> CREDITOS/SAIR DO JOGO")
 	
 
 CreateText(103, "SAIR DO JOGO")
-		SetTextFont(103,1)
-		SetTextPosition(103, 400, 750)
-		SetTextSize(103, 30)
-		SetTextVisible(103,0)
+	SetTextFont(103,1)
+	SetTextPosition(103, 400, 750)
+	SetTextSize(103, 30)
+	SetTextVisible(103,0)
 		
 LoadImage(700, "creditos.png")
 CreateSprite(700,700)
 SetSpriteVisible(700,0)
 
+// variaveis de controle//
 global creditos = 0
+global pontos = 55
+global vidas = 3
+global fase = 1
+global velocidade_carro = 12
+global morte = 0
+
 
 do
-
+	//estado das variaveis de controle
 	if fase = 8
 		tela_fim()
 		reinicio_ou_fim()
@@ -476,6 +478,7 @@ do
 		endif
 	endif
 	
+	//~~principal~~//
 	ctrlmenina(meninas, morte)
 	mover_carros(i,velocidade_carro+2,576)
 	mover_carros(j,velocidade_carro+2,576)
@@ -491,7 +494,7 @@ do
 	atfaixa(meninas, ruas, faixas)
 	atfaixa (meninas, rua2s, faixa2s)
 
-		//checkpoint//
+	//checkpoint//
 	if GetSpriteCollision (meninas, checkpoints) and GetRawKeyState(32)
 		fase = fase + 1
 		velocidade_carro = velocidade_carro + 2
@@ -533,24 +536,23 @@ do
 		endif
 	endif
 	 	
-	if pontos = 0
-		morte = 1
-		vidas = 0
-	endif
-
-	  
+	//if pontos = 0
+		//morte = 1
+		//vidas = 0
+	//endif
+ 
   	Sync()
 loop
 
 function tela_fim()
-		SetSpriteVisible(69,1)
-		SetTextVisible(texto_pontuacao,0)
-		SetTextVisible(texto_fases,0)
-		SetTextVisible(texto_vidas,0)
-		SetTextVisible(100,1)
-		SetTextVisible(101,1)
-		SetTextVisible(102,1)
-		SetSpriteFrame(meninas,4)
+	SetSpriteVisible(69,1)
+	SetTextVisible(texto_pontuacao,0)
+	SetTextVisible(texto_fases,0)
+	SetTextVisible(texto_vidas,0)
+	SetTextVisible(100,1)
+	SetTextVisible(101,1)
+	SetTextVisible(102,1)
+	SetSpriteFrame(meninas,4)
 endfunction
 
 function reinicio_ou_fim ()
@@ -604,8 +606,7 @@ if GetPointerPressed()=1
 		endif
 		
 	endif
-
-		
+	
 endfunction
 		
 
@@ -677,8 +678,8 @@ function atualizar_textos()
 	settextstring(texto_fases,"Fase: "+str(fase))
 endfunction
 
-function mover_carros(sid,sid2,sid3)
-	SetSpritePosition(sid,getspritex(sid)+sid2,sid3)
+function mover_carros(carros,velocidade,posicionamento)
+	SetSpritePosition(carros,getspritex(carros)+velocidade,posicionamento)
 endfunction
 
 function atualizar_carros_indo ()
